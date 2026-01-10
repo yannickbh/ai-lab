@@ -1,0 +1,17 @@
+# Evita subir arquivos sensíveis e temporários
+
+# Ambientes
+.venv/
+.env
+
+# Cache / logs
+__pycache__/
+*.log
+
+# Configurações de IDE
+.vscode/
+.idea/
+
+# Arquivos temporários
+.DS_Store
+*.tmp
