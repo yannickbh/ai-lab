@@ -1,0 +1,59 @@
+[project]
+name = "enterprise-ticket-assistant"
+version = "0.1.0"
+description = "Enterprise Ticket Triage + Resolution Assistant using CrewAI"
+requires-python = ">=3.10"
+dependencies = [
+    "crewai>=0.28.0",
+    "crewai-tools>=0.5.0",
+    "tenacity>=8.2.0",
+    "aiolimiter>=1.1.0",
+    "httpx>=0.25.0",
+    "sentence-transformers>=2.2.0",
+    "qdrant-client>=1.7.0",
+    "structlog>=23.2.0",
+    "opentelemetry-api>=1.21.0",
+    "opentelemetry-sdk>=1.21.0",
+    "prometheus-client>=0.19.0",
+    "pydantic>=2.5.0",
+    "python-dotenv>=1.0.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-mock>=3.12.0",
+    "respx>=0.20.0",
+    "vcrpy>=5.1.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.7.0",
+]
+
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true

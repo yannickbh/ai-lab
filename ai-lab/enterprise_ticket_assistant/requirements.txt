@@ -1,0 +1,38 @@
+# CrewAI Core
+crewai>=0.28.0
+crewai-tools>=0.5.0
+
+# Reliability & Resilience
+tenacity>=8.2.0
+aiolimiter>=1.1.0
+
+# Async & HTTP
+httpx>=0.25.0
+# Note: asyncio is part of Python standard library (3.7+), no need to install
+
+# RAG & Embeddings
+sentence-transformers>=2.2.0
+qdrant-client>=1.7.0
+# Alternative: chromadb>=0.4.0 or weaviate-client>=3.24.0
+
+# Observability
+structlog>=23.2.0
+opentelemetry-api>=1.21.0
+opentelemetry-sdk>=1.21.0
+opentelemetry-instrumentation-httpx>=0.42b0
+prometheus-client>=0.19.0
+
+# Security & Validation
+pydantic>=2.5.0
+python-dotenv>=1.0.0
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+pytest-mock>=3.12.0
+respx>=0.20.0  # Mock HTTP requests
+vcrpy>=5.1.0   # Record HTTP interactions
+
+# Utilities
+python-dateutil>=2.8.2
+rich>=13.7.0   # Pretty console output

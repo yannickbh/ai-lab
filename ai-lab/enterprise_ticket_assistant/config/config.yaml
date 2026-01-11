@@ -1,0 +1,123 @@
+# Enterprise Ticket Assistant Configuration
+
+crew:
+  # Execution mode
+  process: sequential  # or hierarchical
+  verbose: true
+  
+  # Reliability settings
+  max_iterations: 10
+  max_execution_time_seconds: 300
+  
+  # Cost control
+  max_tokens_per_agent: 4000
+  max_total_cost_usd: 1.0
+
+agents:
+  router:
+    role: "Ticket Router"
+    goal: "Classify and route tickets to appropriate teams"
+    backstory: |
+      You are an expert at analyzing support tickets and determining
+      their priority, category, and routing. You use historical data
+      to make informed routing decisions.
+    max_iterations: 5
+    
+  planner:
+    role: "Resolution Planner"
+    goal: "Create actionable resolution plans for tickets"
+    backstory: |
+      You analyze ticket details and historical solutions to create
+      step-by-step resolution plans. You leverage knowledge base
+      articles and similar past tickets.
+    max_iterations: 8
+    
+  executor:
+    role: "Action Executor"
+    goal: "Execute resolution actions via APIs"
+    backstory: |
+      You execute concrete actions to resolve tickets: updating CRM,
+      sending emails, creating follow-up tasks. You ensure idempotency
+      and handle errors gracefully.
+    max_iterations: 10
+    
+  critic:
+    role: "Quality Critic"
+    goal: "Review and validate resolution quality"
+    backstory: |
+      You review resolution plans and executed actions for quality,
+      completeness, and compliance. You ensure all requirements are met.
+    max_iterations: 5
+
+tools:
+  # Rate limiting
+  crm_api:
+    rate_limit_per_minute: 60
+    timeout_seconds: 30
+    
+  kb_search:
+    rate_limit_per_minute: 120
+    timeout_seconds: 15
+    
+  email_send:
+    rate_limit_per_minute: 30
+    timeout_seconds: 20
+
+memory:
+  # Short-term (conversation context)
+  max_context_tokens: 2000
+  summarization_threshold: 1500
+  
+  # Long-term (persistent)
+  storage_backend: sqlite  # or postgresql
+  database_url: sqlite:///./data/tickets.db
+
+rag:
+  vector_store: qdrant
+  embedding_model: sentence-transformers/all-MiniLM-L6-v2
+  top_k_results: 5
+  similarity_threshold: 0.7
+  rerank: false  # Set to true to enable reranking
+
+security:
+  # PII redaction
+  enable_pii_redaction: true
+  pii_patterns:
+    - email
+    - phone
+    - ssn
+    - credit_card
+    
+  # Tenant isolation
+  enable_tenant_isolation: true
+  tenant_field: tenant_id
+
+observability:
+  # Logging
+  log_level: INFO
+  structured_logging: true
+  log_file: logs/ticket_assistant.log
+  
+  # Tracing
+  enable_tracing: true
+  otel_endpoint: http://localhost:4317
+  
+  # Metrics
+  enable_metrics: true
+  metrics_port: 8000
+  track_costs: true
+  track_latency: true
+
+reliability:
+  # Retries
+  max_retries: 3
+  retry_backoff_multiplier: 2.0
+  retry_max_wait_seconds: 60
+  
+  # Circuit breaker
+  circuit_breaker_failure_threshold: 5
+  circuit_breaker_recovery_timeout: 60
+  
+  # Timeouts
+  default_timeout_seconds: 30
+  tool_timeout_seconds: 20
